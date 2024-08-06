@@ -4,8 +4,14 @@ using System.Windows.Forms;
 
 namespace DbAccessAP
 {
+    /// <summary>
+    /// ]‹Æˆõˆê——
+    /// </summary>
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// ]‹Æˆõˆê——‚Ì“Ç‚İ‚İ
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
