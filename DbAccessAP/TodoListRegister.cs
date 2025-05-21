@@ -4,75 +4,76 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DbAccessAP.Common;
-using static System.ComponentModel.Design.ObjectSelectorEditor;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DbAccessAP
 {
     /// <summary>
-    /// 従業員登録画面
+    /// TODOリストの登録画面
     /// </summary>
-    public partial class EntryForm : Form
+    public partial class TodoForm : Form
     {
-        public EntryForm()
+        public TodoForm()
         {
             InitializeComponent();
         }
 
         /// <summary>
-        /// 従業員登録ボタン押下
+        /// TODO登録ボタン押下
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void entryButton1_Click(object sender, EventArgs e)
+        private void entryButton2_Click(object sender, EventArgs e)
         {
-            // 空白のチェック
-           if (!CheckEmployee())
+            // 空白チェック
+            if (!CheckTodolist())
             {
                 return;
             }
 
             // 登録処理
-            AddEmployee();
+            AddTodolist();
         }
 
         /// <summary>
-        /// 初期処理
+        /// TODOリストのフォームロード処理
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void EntryForm_Load(object sender, EventArgs e)
+        private void TodoForm_Load(object sender, EventArgs e)
         {
             // コンボボックスの設定
-            GetEmployee();
+            GetTodolist();
         }
 
         /// <summary>
-        /// クリア処理
+        /// クリアボタン押下
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button1_Click(object sender, EventArgs e)
+        private void deleteButton_Click(object sender, EventArgs e)
         {
+            // クリア処理
             ClearTodolist();
         }
 
         /// <summary>
         /// 従業員の登録処理
         /// </summary>
-        private void AddEmployee()
+        private void AddTodolist()
         {
             DatabaseHelper dbHelper = new DatabaseHelper("Server=LAPTOP-UPM585DU;Database=master;Integrated Security=True;TrustServerCertificate=True;");
             using (var connection = dbHelper.OpenConnection())
             {
                 string sql = string.Empty;
-                string Cb = departmentComboBox.SelectedValue.ToString();
-                sql = "INSERT INTO employees(name,age,department_id)  VALUES ('" + nameTextBox.Text + "'," + ageInputTextBox.Text + "," + Cb + ")";
+
+                // Todosテーブルへ登録
+                string keycb = nameComboBox.SelectedValue.ToString();
+                sql = "INSERT INTO Todos(EmployeeId,Title,Description,DueDate) VALUES(" + keycb + ",'" + titleTextBox.Text + "','" + detailsTextBox.Text + "','" + deadlineDateTimePicker.Text + "')";
                 dbHelper.ExecuteNonQuery(connection, sql);
 
                 // 登録完了メッセージ表示
@@ -83,78 +84,76 @@ namespace DbAccessAP
         /// <summary>
         /// テキストボックスが空白の場合
         /// </summary>
-        private bool CheckEmployee()
+        private bool CheckTodolist()
         {
-            // いずれかの入力が無かった場合の処理（エラーメッセージ）
-            // 従業員名の入力が無い場合
-            if (nameTextBox.Text == "")
+            // タイトルの入力が無い場合
+            if (titleTextBox.Text == "")
             {
-                MessageBox.Show("従業員名入力をしてください");
+                MessageBox.Show("タイトルの入力をしてください");
                 return false;
             }
 
-            // 年齢の入力がない場合
-            else if (ageInputTextBox.Text == "")
+            // 詳細の入力が無い場合
+            if (detailsTextBox.Text == "")
             {
-                MessageBox.Show("年齢入力をしてください");
+                MessageBox.Show("詳細の入力をしてください");
                 return false;
             }
 
-            // 部署名の入力がない場合
-            else if (departmentComboBox.Text == "")
+            // 社員IDの入力が無い場合
+            if (nameComboBox.Text == "")
             {
-                MessageBox.Show("部署IDを入力してください");
+                MessageBox.Show("社員IDを選択してください");
                 return false;
             }
 
-            // 年齢に入力がある場合
-            if (ageInputTextBox.Text != "")
+            // 現在日付を取得（年月日のみ）
+            DateTime nowDate = DateTime.Now.Date;
+            if (deadlineDateTimePicker.Value < nowDate)
             {
-                int age;
-                if (!int.TryParse(ageInputTextBox.Text, out age))
-                {
-                    MessageBox.Show("適切な数字を入力してください。");
-                    return false;
-                }
+                MessageBox.Show("過去の日付になっています。今日以降の日付を設定してください。");
+                return false;
             }
             return true;
         }
 
         /// <summary>
-        /// データの取得とコンボボックスの設定
+        /// コンボボックスの初期設定
         /// </summary>
-        private void GetEmployee()
+        private void GetTodolist()
         {
             DatabaseHelper dbHelper = new DatabaseHelper("Server=LAPTOP-UPM585DU;Database=master;Integrated Security=True;TrustServerCertificate=True;");
             using (var connection = dbHelper.OpenConnection())
             {
                 // departmentsから名前の取得
                 string sql = string.Empty;
-                sql = "SELECT * FROM departments";
+                sql = "SELECT * FROM employees";
                 DataTable employeeData = dbHelper.ExecuteQuery(connection, sql);
-                departmentComboBox.DataSource = employeeData;
+                nameComboBox.DataSource = employeeData;
 
                 // 画面に表示する項目を設定
-                this.departmentComboBox.DisplayMember = "name";
+                this.nameComboBox.DisplayMember = "name";
 
                 // リンクさせるための値を設定
-                this.departmentComboBox.ValueMember = "id";
+                this.nameComboBox.ValueMember = "id";
 
                 // 選択を解除
-                this.departmentComboBox.SelectedValue = -1;
+                this.nameComboBox.SelectedValue = -1;
+
+                // 期限日の固定
+                deadlineDateTimePicker.CustomFormat = "yyyy/MM/dd";
             }
         }
 
         /// <summary>
-        /// テキストボックスとコンボボックスのクリア処理
+        /// テキストボックスとコンボボックスのクリア
         /// </summary>
         private void ClearTodolist()
         {
-            nameTextBox.Text = string.Empty;
-            ageInputTextBox.Text = string.Empty;
-            departmentComboBox.Text = string.Empty;
+            titleTextBox.Text = string.Empty;
+            detailsTextBox.Text = string.Empty;
+            deadlineDateTimePicker.Text = string.Empty;
+            nameComboBox.Text = string.Empty;
         }
     }
 }
-    
-

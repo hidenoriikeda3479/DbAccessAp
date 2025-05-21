@@ -28,50 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
-            entryButton1 = new Button();
-            employeeNameInput = new TextBox();
-            ageInput = new TextBox();
-            departmentNameInput = new TextBox();
+            entryButton = new Button();
+            nameTextBox = new TextBox();
+            ageInputTextBox = new TextBox();
             employeeNameLabel = new Label();
             ageLabel = new Label();
-            departmentNameLabel = new Label();
+            departmentIdLabel = new Label();
+            departmentComboBox = new ComboBox();
+            clearButton = new Button();
             SuspendLayout();
             // 
-            // entryButton1
+            // entryButton
             // 
-            entryButton1.Location = new Point(676, 28);
-            entryButton1.Name = "entryButton1";
-            entryButton1.Size = new Size(65, 33);
-            entryButton1.TabIndex = 0;
-            entryButton1.Text = "登録";
-            entryButton1.UseVisualStyleBackColor = true;
-            entryButton1.Click += entryButton1_Click;
+            entryButton.Location = new Point(179, 190);
+            entryButton.Name = "entryButton";
+            entryButton.Size = new Size(65, 22);
+            entryButton.TabIndex = 0;
+            entryButton.Text = "登録";
+            entryButton.UseVisualStyleBackColor = true;
+            entryButton.Click += entryButton1_Click;
             // 
-            // employeeNameInput
+            // nameTextBox
             // 
-            employeeNameInput.Location = new Point(114, 34);
-            employeeNameInput.Name = "employeeNameInput";
-            employeeNameInput.Size = new Size(117, 23);
-            employeeNameInput.TabIndex = 1;
+            nameTextBox.Location = new Point(73, 38);
+            nameTextBox.Name = "nameTextBox";
+            nameTextBox.Size = new Size(171, 23);
+            nameTextBox.TabIndex = 1;
             // 
-            // ageInput
+            // ageInputTextBox
             // 
-            ageInput.Location = new Point(309, 34);
-            ageInput.Name = "ageInput";
-            ageInput.Size = new Size(117, 23);
-            ageInput.TabIndex = 2;
-            // 
-            // departmentNameInput
-            // 
-            departmentNameInput.Location = new Point(507, 34);
-            departmentNameInput.Name = "departmentNameInput";
-            departmentNameInput.Size = new Size(117, 23);
-            departmentNameInput.TabIndex = 3;
+            ageInputTextBox.Location = new Point(73, 87);
+            ageInputTextBox.Name = "ageInputTextBox";
+            ageInputTextBox.Size = new Size(171, 23);
+            ageInputTextBox.TabIndex = 2;
             // 
             // employeeNameLabel
             // 
             employeeNameLabel.AutoSize = true;
-            employeeNameLabel.Location = new Point(53, 37);
+            employeeNameLabel.Location = new Point(12, 41);
             employeeNameLabel.Name = "employeeNameLabel";
             employeeNameLabel.Size = new Size(55, 15);
             employeeNameLabel.TabIndex = 4;
@@ -80,49 +74,71 @@
             // ageLabel
             // 
             ageLabel.AutoSize = true;
-            ageLabel.Location = new Point(272, 37);
+            ageLabel.Location = new Point(36, 95);
             ageLabel.Name = "ageLabel";
             ageLabel.Size = new Size(31, 15);
             ageLabel.TabIndex = 5;
             ageLabel.Text = "年齢";
             // 
-            // departmentNameLabel
+            // departmentIdLabel
             // 
-            departmentNameLabel.AutoSize = true;
-            departmentNameLabel.ImageAlign = ContentAlignment.TopLeft;
-            departmentNameLabel.Location = new Point(458, 37);
-            departmentNameLabel.Name = "departmentNameLabel";
-            departmentNameLabel.Size = new Size(43, 15);
-            departmentNameLabel.TabIndex = 6;
-            departmentNameLabel.Text = "部署名";
+            departmentIdLabel.AutoSize = true;
+            departmentIdLabel.ImageAlign = ContentAlignment.TopLeft;
+            departmentIdLabel.Location = new Point(24, 145);
+            departmentIdLabel.Name = "departmentIdLabel";
+            departmentIdLabel.Size = new Size(43, 15);
+            departmentIdLabel.TabIndex = 8;
+            departmentIdLabel.Text = "部署名";
+            // 
+            // departmentComboBox
+            // 
+            departmentComboBox.FormattingEnabled = true;
+            departmentComboBox.Location = new Point(73, 142);
+            departmentComboBox.Name = "departmentComboBox";
+            departmentComboBox.Size = new Size(171, 23);
+            departmentComboBox.TabIndex = 9;
+            // 
+            // clearButton
+            // 
+            clearButton.Location = new Point(108, 190);
+            clearButton.Name = "clearButton";
+            clearButton.Size = new Size(65, 22);
+            clearButton.TabIndex = 10;
+            clearButton.Text = "クリア";
+            clearButton.UseVisualStyleBackColor = true;
+            clearButton.Click += button1_Click;
             // 
             // EntryForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(departmentNameLabel);
+            ClientSize = new Size(290, 240);
+            Controls.Add(clearButton);
+            Controls.Add(departmentComboBox);
+            Controls.Add(departmentIdLabel);
             Controls.Add(ageLabel);
             Controls.Add(employeeNameLabel);
-            Controls.Add(departmentNameInput);
-            Controls.Add(ageInput);
-            Controls.Add(employeeNameInput);
-            Controls.Add(entryButton1);
+            Controls.Add(ageInputTextBox);
+            Controls.Add(nameTextBox);
+            Controls.Add(entryButton);
             Name = "EntryForm";
-            Text = "EntryForm";
+            ShowInTaskbar = false;
+            Text = "従業員登録";
+            Load += EntryForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Button entryButton1;
-        private TextBox employeeNameInput;
-        private TextBox ageInput;
-        private TextBox departmentNameInput;
+        private Button entryButton;
+        private TextBox nameTextBox;
+        private TextBox ageInputTextBox;
         private Label employeeNameLabel;
         private Label ageLabel;
-        protected internal Label departmentNameLabel;
         private Label ageLabel3;
+        protected internal Label departmentIdLabel;
+        private ComboBox departmentComboBox;
+        private Button clearButton;
     }
 }
